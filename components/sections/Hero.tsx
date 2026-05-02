@@ -1,11 +1,12 @@
 import Image from "next/image";
+import { Fragment } from "react";
 import { Button } from "@/components/ui/Button";
 import { HeroBookImage } from "@/components/ui/HeroBookImage";
 import type { HeroLeadSegment } from "@/lib/content";
 import { cn } from "@/lib/cn";
 
 export type HeroProps = {
-  title: string;
+  titleLines: readonly string[];
   leadSegments: readonly HeroLeadSegment[];
   primaryCta: { label: string; href: string };
   secondaryCta: {
@@ -34,7 +35,7 @@ function PlayIcon({ className }: { className?: string }) {
 }
 
 export function Hero({
-  title,
+  titleLines,
   leadSegments,
   primaryCta,
   secondaryCta,
@@ -45,74 +46,129 @@ export function Hero({
   return (
     <section
       id="idea"
-      className="relative flex min-h-[min(80vh,52rem)] flex-col justify-center overflow-x-clip overflow-y-visible border-b border-white/10 px-[var(--padding-inline-section)] py-12 sm:min-h-[80vh] sm:py-16 md:min-h-[82vh] md:py-20 lg:min-h-[85vh] lg:py-24"
+      className="relative flex min-h-0 flex-col justify-start overflow-visible border-b border-white/10 px-[var(--padding-inline-section)] py-16 sm:py-20 md:min-h-[min(82svh,52rem)] md:py-20 lg:min-h-[min(85svh,56rem)] lg:py-24"
     >
-      {/* Full-bleed photo */}
+      {/* Full-bleed photo — softer on small screens so overlays dominate */}
       {backgroundSrc ? (
-        <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
+        <div
+          className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
+          aria-hidden
+        >
           <Image
             src={backgroundSrc}
             alt=""
             fill
             priority
-            quality={90}
+            fetchPriority="high"
+            quality={85}
             sizes="100vw"
-            className="object-cover object-center"
+            className="object-cover object-center opacity-[0.72] md:opacity-100"
+            decoding="async"
           />
         </div>
       ) : null}
 
-      {/* Readability: strong left bias on lg+; softer uniform scrim on mobile so stacked book stays visible */}
+      {/* Mobile / tablet: strong uniform scrim for readability */}
       <div
-        className="pointer-events-none absolute inset-0 z-[1] bg-black/45 lg:bg-gradient-to-r lg:from-black/88 lg:via-black/55 lg:from-[8%] lg:via-45% lg:to-transparent lg:to-[62%]"
-        aria-hidden
-      />
-      {/* Vertical balance — lighter at bottom on small screens (book stacks below copy) */}
-      <div
-        className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-b from-black/30 via-transparent to-black/25 lg:to-black/45"
-        aria-hidden
-      />
-      {/* Vignette — reduced on mobile */}
-      <div
-        className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(0,0,0,0.4)_100%)] opacity-70 lg:opacity-100 lg:bg-[radial-gradient(ellipse_at_center,transparent_25%,rgba(0,0,0,0.55)_100%)]"
-        aria-hidden
-      />
-      {/* Brand tint — no mix-blend (can cause compositing flicker with overlays + images) */}
-      <div
-        className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-br from-brand-navy/20 via-transparent to-brand-teal/10"
+        className="pointer-events-none absolute inset-0 z-[1] bg-black/50 md:bg-black/42 lg:hidden"
         aria-hidden
       />
 
-      <div className="relative isolate z-10 mx-auto grid w-full min-w-0 max-w-6xl grid-cols-1 items-center gap-8 sm:gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-x-16 lg:gap-y-0 xl:gap-x-20">
-        <div className="min-w-0 space-y-5 sm:space-y-7 lg:space-y-8 lg:pr-4">
-          <h1
+      {/* Desktop: left-weighted gradient scrim */}
+      <div
+        className="pointer-events-none absolute inset-0 z-[1] hidden bg-gradient-to-r from-black/88 via-black/55 from-[8%] via-45% to-transparent to-[62%] lg:block"
+        aria-hidden
+      />
+      {/* Vertical balance */}
+      <div
+        className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-b from-black/25 via-transparent to-black/35 lg:to-black/45"
+        aria-hidden
+      />
+      {/* Vignette — lighter on mobile so center copy stays clear */}
+      <div
+        className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(0,0,0,0.42)_100%)] opacity-75 lg:opacity-100 lg:bg-[radial-gradient(ellipse_at_center,transparent_25%,rgba(0,0,0,0.55)_100%)]"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-br from-brand-navy/25 via-transparent to-brand-teal/10"
+        aria-hidden
+      />
+
+      <div
+        className={cn(
+          "relative z-10 mx-auto flex w-full min-w-0 max-w-6xl flex-col items-center gap-12 overflow-visible text-center",
+          "md:grid md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:items-start md:gap-x-12 md:gap-y-0 md:text-left",
+          "lg:gap-x-16 xl:gap-x-20",
+        )}
+      >
+        {/* Copy block: headline → lead → CTAs (mobile order; left column on md+) */}
+        <div
+          className={cn(
+            "hero-mobile-text-in flex w-full min-w-0 max-w-2xl flex-col items-center",
+            "space-y-8 md:space-y-7 lg:space-y-8",
+            "md:max-w-none md:items-start md:pr-2 lg:pr-4",
+          )}
+        >
+          <header className="contents">
+            <h1
+              aria-label={titleLines.join(" ")}
+              className={cn(
+                "w-full max-w-[95%] font-[family-name:var(--font-heading)] font-semibold text-white",
+                "text-3xl leading-tight tracking-tight sm:text-4xl",
+                "md:max-w-none md:text-5xl md:leading-tight lg:text-6xl",
+                "drop-shadow-[0_4px_32px_rgba(0,0,0,0.85)] [text-shadow:0_2px_24px_rgba(0,0,0,0.5)]",
+              )}
+            >
+              {titleLines.map((line, i) => (
+                <Fragment key={i}>
+                  {i > 0 ? <br /> : null}
+                  {line}
+                </Fragment>
+              ))}
+            </h1>
+            <p
+              className={cn(
+                "hero-lead w-full max-w-[min(100%,22rem)] text-base leading-relaxed text-zinc-100 [text-shadow:0_1px_12px_rgba(0,0,0,0.65)]",
+                "sm:max-w-md sm:text-lg sm:leading-relaxed",
+                "md:max-w-xl md:leading-[1.75]",
+              )}
+            >
+              {leadSegments.map((segment, i) =>
+                segment.emphasize ? (
+                  <span key={i} className="font-medium text-brand-gold">
+                    {segment.text}
+                  </span>
+                ) : (
+                  <span key={i}>{segment.text}</span>
+                ),
+              )}
+            </p>
+          </header>
+          <nav
+            aria-label="Primary calls to action"
             className={cn(
-              "heading-hero text-white",
-              "drop-shadow-[0_4px_32px_rgba(0,0,0,0.85)]",
-              "[text-shadow:0_2px_24px_rgba(0,0,0,0.5)]",
+              "flex w-full max-w-md flex-col gap-5 pt-2",
+              "md:max-w-none md:flex-row md:flex-wrap md:gap-4 md:pt-1",
             )}
           >
-            {title}
-          </h1>
-          <p className="max-w-xl text-base leading-relaxed text-zinc-100 [text-shadow:0_1px_12px_rgba(0,0,0,0.65)] sm:text-lg sm:leading-[1.75]">
-            {leadSegments.map((segment, i) =>
-              segment.emphasize ? (
-                <span key={i} className="font-medium text-brand-gold">
-                  {segment.text}
-                </span>
-              ) : (
-                <span key={i}>{segment.text}</span>
-              ),
-            )}
-          </p>
-          <div className="flex w-full max-w-md flex-col gap-3 pt-1 sm:max-w-none sm:flex-row sm:flex-wrap sm:gap-4">
-            <Button className="w-full justify-center sm:w-auto" href={primaryCta.href}>
+            <Button
+              className={cn(
+                "w-full justify-center rounded-xl px-6 transition-all duration-300 ease-out",
+                "min-h-[44px] max-md:py-3",
+                "md:min-h-0 md:w-auto md:rounded-lg md:px-5 md:py-2.5",
+              )}
+              href={primaryCta.href}
+            >
               {primaryCta.label}
             </Button>
             <Button
               href={secondaryCta.href}
               variant="secondary"
-              className="w-full justify-center border-white/45 bg-white/5 text-white backdrop-blur-sm transition-all duration-200 ease-out hover:border-white/80 hover:bg-white/12 hover:text-white sm:w-auto"
+              className={cn(
+                "w-full justify-center rounded-xl px-6 text-white backdrop-blur-sm",
+                "min-h-[44px] transition-all duration-300 ease-out max-md:py-3",
+                "md:min-h-0 md:w-auto md:rounded-lg md:px-5 md:py-2.5",
+              )}
             >
               <span className="inline-flex items-center justify-center gap-2">
                 {secondaryCta.showPlayIcon ? (
@@ -121,10 +177,16 @@ export function Hero({
                 {secondaryCta.label}
               </span>
             </Button>
-          </div>
+          </nav>
         </div>
 
-        <div className="relative z-20 flex min-w-0 justify-center px-0 pb-1 pt-2 sm:px-4 sm:pb-2 sm:pt-4 lg:justify-end lg:px-2 lg:pb-0 lg:pt-0">
+        {/* Book — below copy on mobile; right column from md+ */}
+        <div
+          className={cn(
+            "order-2 mt-8 flex w-full justify-center overflow-visible sm:mt-10",
+            "md:order-2 md:mt-0 md:justify-end md:self-start",
+          )}
+        >
           <HeroBookImage src={imageSrc} alt={imageAlt} />
         </div>
       </div>

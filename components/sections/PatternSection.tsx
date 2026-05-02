@@ -47,7 +47,7 @@ export function PatternSection({
             ) : null}
           </header>
 
-          <ul className="grid grid-cols-1 gap-7 sm:gap-8 md:grid-cols-2 md:gap-9 lg:grid-cols-3 lg:gap-10">
+          <ul className="grid grid-cols-1 gap-7 sm:gap-8 lg:grid-cols-3 lg:gap-10">
             {patterns.map((card, index) => (
               <li key={`${card.href}-${card.number}`}>
                 <PatternCard
@@ -62,7 +62,10 @@ export function PatternSection({
           </ul>
 
           {viewAll ? (
-            <div className="flex justify-center pt-2">
+            <nav
+              aria-label="More patterns"
+              className="flex justify-center pt-2"
+            >
               <Link
                 href={viewAll.href}
                 className="group inline-flex items-center gap-2 text-sm font-semibold text-brand-navy transition-colors duration-200 ease-out hover:text-brand-gold"
@@ -75,7 +78,7 @@ export function PatternSection({
                   →
                 </span>
               </Link>
-            </div>
+            </nav>
           ) : null}
         </div>
       </Container>

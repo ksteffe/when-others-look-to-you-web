@@ -18,7 +18,7 @@ type SectionProps = {
 };
 
 const paddingClass =
-  "px-[var(--padding-inline-section)] py-section-md sm:py-section-lg";
+  "px-[var(--padding-inline-section)] py-10 sm:py-section-md md:py-section-lg";
 
 /**
  * Page section shell: alternating surfaces + consistent vertical padding.

@@ -1,15 +1,51 @@
 @import "tailwindcss";
 
-/* Design system — theme tokens (@theme) and composed utilities (@utility) */
-
-/* Hero book 3D — tweak perspective / rotation here */
-:root {
-  --book-perspective: 1200px;
-  --book-rotate-y: -12deg;
+/* Reserve space for scrollbar so column width doesn’t toggle when scrollbars appear/disappear */
+html {
+  scrollbar-gutter: stable;
+  /* Framer Motion useScroll(target): inset math toward document.scrollingElement needs a positioned root */
+  position: relative;
 }
 
-.book-tilt {
-  transform: perspective(var(--book-perspective)) rotateY(var(--book-rotate-y));
+/* Design system — theme tokens (@theme) and composed utilities (@utility) */
+
+/* Hero book 3D — perspective on parent only; transforms on child (stable across sizes) */
+.book-perspective-host {
+  perspective: 1200px;
+  overflow: visible;
+}
+
+.book-transform-inner {
+  transform-style: preserve-3d;
+  transform: rotateY(-12deg) rotateX(1deg);
+  overflow: visible;
+}
+
+/** Outer shell for Book3D — never clip spine / ground shadow */
+.book-3d-root {
+  overflow: visible;
+}
+
+/* Mobile hero copy — subtle entrance (disabled when user prefers reduced motion) */
+@keyframes hero-text-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 767px) and (prefers-reduced-motion: no-preference) {
+  .hero-mobile-text-in > h1 {
+    animation: hero-text-reveal 0.7s ease-out forwards;
+  }
+
+  .hero-mobile-text-in > .hero-lead {
+    animation: hero-text-reveal 0.7s ease-out 0.12s both;
+  }
 }
 
 /**
@@ -92,8 +128,8 @@
 
 @utility heading-hero {
   font-family: var(--font-heading), ui-serif, Georgia, "Times New Roman", serif;
-  /* Smaller floor on narrow viewports; scales up smoothly through tablet/desktop */
-  font-size: clamp(2rem, 5.25vw + 0.875rem, 4.75rem);
+  /* Tighter floor on phones; scales up through tablet/desktop */
+  font-size: clamp(1.625rem, 5vw + 0.65rem, 4.75rem);
   font-weight: 600;
   line-height: 1.06;
   letter-spacing: -0.03em;
