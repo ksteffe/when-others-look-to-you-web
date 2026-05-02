@@ -81,9 +81,9 @@ export function PatternCard({
       </div>
 
       <div className="space-y-2">
-        <span className="body-sm font-semibold tabular-nums tracking-wide text-neutral-400">
+        <p className="body-sm font-semibold tabular-nums tracking-wide text-neutral-400">
           {number}
-        </span>
+        </p>
         <h3 className="font-[family-name:var(--font-heading)] text-lg font-semibold leading-snug tracking-tight text-neutral-900">
           {title}
         </h3>

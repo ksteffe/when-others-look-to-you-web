@@ -1,15 +1,17 @@
 import { cn } from "@/lib/cn";
 
-/** Soft ellipse beneath the book — grounded contact shadow */
+/**
+ * Soft ellipse under the book — all geometry is % of the aspect-ratio host so it scales.
+ * Horizontal anchor accounts for rotateY tilt (shadow sits slightly right of center).
+ */
 export function BookShadow({ className }: { className?: string }) {
   return (
     <div
       aria-hidden
       className={cn(
-        "pointer-events-none absolute left-1/2 top-full z-0",
-        "-translate-x-1/2 translate-x-[12px] translate-y-1.5 sm:translate-x-4 sm:translate-y-2",
-        "h-9 w-[min(90%,14rem)] rounded-[100%] sm:h-11 sm:w-[min(92%,15rem)]",
-        "bg-black/[0.15] blur-[28px] sm:blur-[36px]",
+        "pointer-events-none absolute left-[53%] z-0 -translate-x-1/2",
+        "bottom-[-6%] h-[8%] w-[92%] rounded-[100%]",
+        "bg-black/[0.15] blur-3xl",
         className,
       )}
     />

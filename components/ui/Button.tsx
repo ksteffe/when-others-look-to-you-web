@@ -22,13 +22,23 @@ type ButtonProps = {
   className?: string;
   variant?: keyof typeof variants;
   href?: string;
-} & Omit<React.ComponentProps<"button">, "className" | "children">;
+  /** Used with `href` for external links */
+  target?: React.HTMLAttributeAnchorTarget;
+  rel?: string;
+  onClick?: React.MouseEventHandler<HTMLAnchorElement | HTMLButtonElement>;
+} & Omit<
+  React.ComponentProps<"button">,
+  "className" | "children" | "onClick"
+>;
 
 export function Button({
   children,
   className,
   variant = "primary",
   href,
+  target,
+  rel,
+  onClick,
   type = "button",
   ...rest
 }: ButtonProps) {
@@ -36,14 +46,20 @@ export function Button({
 
   if (href) {
     return (
-      <Link href={href} className={cls}>
+      <Link
+        href={href}
+        className={cls}
+        target={target}
+        rel={rel}
+        onClick={onClick}
+      >
         {children}
       </Link>
     );
   }
 
   return (
-    <button type={type} className={cls} {...rest}>
+    <button type={type} className={cls} onClick={onClick} {...rest}>
       {children}
     </button>
   );

@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { BOOK_SOURCE, coverWidthClass } from "./config";
 import { cn } from "@/lib/cn";
 
 type BookCoverProps = {
@@ -10,37 +9,38 @@ type BookCoverProps = {
 
 /**
  * Front face only (placeholder or artwork). Lighting lives in global `.book-cover-lighting`.
+ * With `src`, uses `next/image` `fill` + `h-full w-full object-cover` inside a relative,
+ * min-sized wrapper so the bitmap tracks the responsive parent (no intrinsic px layout).
  */
 export function BookCover({ src, alt, priority }: BookCoverProps) {
   if (!src) {
     return (
       <div
         className={cn(
-          "relative flex aspect-[2/3] w-full flex-col items-center justify-center gap-3 rounded-l-lg rounded-r-none border border-white/25 bg-brand-navy/75 p-6 text-center",
+          "relative flex h-full w-full flex-col items-center justify-center gap-[6%] rounded-l-lg rounded-r-none border border-white/25 bg-brand-navy/75 p-[8%] text-center",
         )}
         role="img"
         aria-label={alt}
       >
-        <div className="h-12 w-10 rounded-sm bg-gradient-to-br from-brand-teal/50 to-brand-navy" />
+        <div className="aspect-[5/6] w-[18%] max-h-[22%] rounded-sm bg-gradient-to-br from-brand-teal/50 to-brand-navy" />
         <span className="body-sm text-brand-teal/90">Book cover</span>
       </div>
     );
   }
 
   return (
-    <Image
-      src={src}
-      alt={alt}
-      width={BOOK_SOURCE.width}
-      height={BOOK_SOURCE.height}
-      priority={priority}
-      quality={90}
-      sizes="(max-width: 1024px) 85vw, 380px"
-      className={cn(
-        "relative z-[2] block rounded-l-lg rounded-r-none object-cover",
-        coverWidthClass,
-      )}
-    />
+    <div className="relative z-[2] h-full min-h-0 w-full min-w-0 overflow-hidden rounded-l-lg rounded-r-none">
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        priority={priority}
+        quality={priority ? 90 : 75}
+        sizes="(max-width: 768px) min(100vw, 28rem), (max-width: 1024px) 40vw, 320px"
+        className="h-full w-full object-cover"
+        decoding="async"
+      />
+    </div>
   );
 }
 
