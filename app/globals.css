@@ -1,1 +1,135 @@
 @import "tailwindcss";
+
+/* Design system — theme tokens (@theme) and composed utilities (@utility) */
+
+/* Hero book 3D — tweak perspective / rotation here */
+:root {
+  --book-perspective: 1200px;
+  --book-rotate-y: -12deg;
+}
+
+.book-tilt {
+  transform: perspective(var(--book-perspective)) rotateY(var(--book-rotate-y));
+}
+
+/**
+ * Cover lighting — left-centered key (scene sun): lift left, falloff toward hinge/right.
+ * Tweak stops / opacity here only.
+ */
+.book-cover-lighting {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  /* Match cover: square edge against spine (only hinge side rounded) */
+  border-radius: 0.5rem 0 0 0.5rem;
+  background:
+    linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.11) 0%,
+      rgba(255, 255, 255, 0.03) 32%,
+      transparent 48%,
+      rgba(0, 0, 0, 0.02) 72%,
+      rgba(0, 0, 0, 0.1) 100%
+    ),
+    radial-gradient(ellipse 70% 52% at 16% 28%, rgba(255, 255, 255, 0.1) 0%, transparent 52%),
+    radial-gradient(ellipse 66% 48% at 86% 74%, rgba(0, 0, 0, 0.12) 0%, transparent 52%);
+  mix-blend-mode: soft-light;
+  opacity: 0.9;
+}
+
+@theme {
+  /* Brand palette (book cover: deep sea, weathered paper, foil, ember) */
+  --color-brand-navy: #0a1628;
+  --color-brand-teal: #3d6b7a;
+  --color-brand-gold: #c9a227;
+  --color-brand-orange: #c45c26;
+  /* Warm off-white bands (alternating with navy sections) */
+  --color-brand-paper: #f4f2ec;
+
+  /* Readable measure for body copy and centered columns */
+  --max-width-content: 40rem;
+
+  /* Horizontal gutter aligned with section-padding */
+  --padding-inline-section: clamp(1rem, 4vw, 2rem);
+
+  /* Section vertical rhythm — use with p-section-* / py-section-* / gap-section-* */
+  --spacing-section-xs: 2rem;
+  --spacing-section-sm: 3rem;
+  --spacing-section-md: 4.75rem;
+  --spacing-section-lg: 6.5rem;
+
+  /* Consistent radii (buttons/inputs use lg; cards use xl) */
+  --radius-button: 0.5rem;
+  --radius-card: 0.75rem;
+}
+
+/* Subtle elevation — prefer over heavy shadows */
+@utility shadow-soft {
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.04),
+    0 4px 16px -4px rgba(15, 23, 42, 0.07);
+}
+
+@utility shadow-soft-hover {
+  box-shadow:
+    0 4px 12px -2px rgba(15, 23, 42, 0.08),
+    0 12px 28px -8px rgba(15, 23, 42, 0.09);
+}
+
+@utility section-padding {
+  padding-inline: var(--padding-inline-section);
+  padding-block: var(--spacing-section-md);
+}
+
+@utility container-centered {
+  margin-inline: auto;
+  width: 100%;
+  max-width: var(--max-width-content);
+}
+
+/* Typography — Playfair (headings) + Inter (body) via next/font CSS variables */
+
+@utility heading-hero {
+  font-family: var(--font-heading), ui-serif, Georgia, "Times New Roman", serif;
+  /* Smaller floor on narrow viewports; scales up smoothly through tablet/desktop */
+  font-size: clamp(2rem, 5.25vw + 0.875rem, 4.75rem);
+  font-weight: 600;
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+@utility heading-xl {
+  font-family: var(--font-heading), ui-serif, Georgia, "Times New Roman", serif;
+  font-size: clamp(2.25rem, 5.5vw + 1rem, 3.75rem);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+@utility heading-lg {
+  font-family: var(--font-heading), ui-serif, Georgia, "Times New Roman", serif;
+  font-size: clamp(1.5rem, 2vw + 0.75rem, 2.375rem);
+  font-weight: 600;
+  line-height: 1.22;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+@utility body-lg {
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.75;
+  letter-spacing: 0.01em;
+}
+
+@utility body-sm {
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.65;
+  letter-spacing: 0.015em;
+}
