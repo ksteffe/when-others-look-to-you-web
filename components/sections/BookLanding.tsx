@@ -60,7 +60,7 @@ export function BookLanding({ content }: BookLandingProps) {
 
             <nav
               aria-label="Get the book"
-              className="flex flex-col gap-3 pt-2 sm:flex-row sm:flex-wrap"
+              className="flex flex-col gap-3 pt-2"
             >
               {readLinks.map((link, i) => {
                 const outbound = isOutboundHref(link.href);
@@ -71,13 +71,16 @@ export function BookLanding({ content }: BookLandingProps) {
                     } as const)
                   : {};
 
+                const stackClass =
+                  "w-full min-w-0 justify-center whitespace-nowrap";
+
                 if (i === 0) {
                   return (
                     <Button
                       key={`${link.href}-${link.label}`}
                       href={link.href}
                       variant="primary"
-                      className="w-full justify-center sm:w-auto"
+                      className={stackClass}
                       target={outbound ? "_blank" : undefined}
                       rel={outbound ? "noopener noreferrer" : undefined}
                     >
@@ -90,10 +93,7 @@ export function BookLanding({ content }: BookLandingProps) {
                   <Link
                     key={`${link.href}-${link.label}`}
                     href={link.href}
-                    className={cn(
-                      secondaryLinkClass,
-                      "w-full sm:w-auto",
-                    )}
+                    className={cn(secondaryLinkClass, stackClass)}
                     {...outboundProps}
                   >
                     {link.label}
