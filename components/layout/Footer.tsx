@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { HeaderNavItem } from "@/components/layout/Header";
+import { GitHubSymbol } from "@/components/icons/GitHubSymbol";
 import { LinkedInSymbol } from "@/components/icons/LinkedInSymbol";
 import { MediumSymbol } from "@/components/icons/MediumSymbol";
 import { YouTubeSymbol } from "@/components/icons/YouTubeSymbol";
@@ -56,6 +57,15 @@ export function Footer({
 
           {/* Social */}
           <div className="flex items-center justify-center gap-1 lg:justify-self-end">
+            <Link
+              href={site.githubRepoHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="When Others Look to You on GitHub"
+              className="rounded-md p-2 text-zinc-500 transition-colors duration-200 ease-out hover:bg-white/5 hover:text-zinc-300"
+            >
+              <GitHubSymbol className="h-5 w-5" />
+            </Link>
             <Link
               href={site.mediumProfileHref}
               target="_blank"

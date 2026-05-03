@@ -14,6 +14,14 @@ export const assets = {
   pageTexture: "/assets/page-texture.png",
 } as const;
 
+/** GitHub Releases — EPUB/DOCX for When Others Look to You (`after-certainty`). */
+export const bookGithubDownloads = {
+  epub:
+    "https://github.com/ksteffe/after-certainty/releases/download/latest/when-others-look-to-you-v1.epub",
+  docx:
+    "https://github.com/ksteffe/after-certainty/releases/download/latest/when-others-look-to-you-v1.docx",
+} as const;
+
 /** Appendix B groups — forming, adjusting, eroding, circulating */
 export type PatternGroupId =
   | "forming"
@@ -119,6 +127,8 @@ export const site = {
   youtubeChannelHref: "https://www.youtube.com/@kstefftube",
   /** Footer LinkedIn profile */
   linkedInProfileHref: "https://www.linkedin.com/in/ksteffe/",
+  /** Footer GitHub — book source repository */
+  githubRepoHref: "https://github.com/ksteffe/after-certainty",
 } as const;
 
 /** `/book` — retailer / reader links (swap for real destinations when available). */
@@ -148,6 +158,14 @@ export const bookPageContent: BookPageContent = {
     {
       label: "Buy on Amazon",
       href: "https://www.amazon.com/gp/product/B0GX34SRDJ",
+    },
+    {
+      label: "Download EPUB",
+      href: bookGithubDownloads.epub,
+    },
+    {
+      label: "Download DOCX",
+      href: bookGithubDownloads.docx,
     },
   ],
   coverAlt: "Book cover: When Others Look to You by Kevin Steffensen",
@@ -485,7 +503,7 @@ export const patterns: PatternCardItem[] = [
       effect:
         "Early correction remains possible. Failure stays smaller and cheaper.",
       resultingContext:
-        "When this pattern weakens, signals arrive late or get buried. Problems grow before anyone addresses them.",
+        "Problems surface before they compound. Early challenge stays credible, and correction can still reach the table in time.",
       relatedPatterns: [
         {
           slug: "examples-accumulate",
@@ -748,7 +766,7 @@ export const patterns: PatternCardItem[] = [
       effect:
         "Local habits become templates. What helps and what hurts both copy forward.",
       resultingContext:
-        "Other places start to look like this one. Forming and eroding habits can spread. No one has to mean to write a playbook.",
+        "Other places start to look like this one. Forming and Eroding habits can spread. No one has to mean to write a playbook.",
       relatedPatterns: [
         {
           slug: "examples-accumulate",
@@ -833,9 +851,9 @@ export const patternsPageContent: PatternsPageContent = {
   label: "PATTERNS",
   title: "Leadership patterns — forming, adjusting, eroding, circulating.",
   intro:
-    "These patterns run through how leadership forms, renews, erodes, and spreads. Each entry notes when it shows up, what is happening, and what tends to follow. They are not prescriptions—patterns to watch for in small groups, workplaces, and public life.",
+    "These patterns run through the argument: how leadership forms, renews, erodes, and spreads. Four groups—forming, adjusting, eroding, and circulating—hold the entries. Each one notes when it shows up, what is happening, and what tends to follow.",
   introLine2:
-    "Four groups organize the list below. Open any card for context, forces, observation, and related patterns.",
+    "These are not prescriptions. They are patterns to watch for in small groups, workplaces, and public life. Four groups organize the list below; open any card for context, forces, observation, and related patterns.",
 };
 
 export const patternSectionContent = {
