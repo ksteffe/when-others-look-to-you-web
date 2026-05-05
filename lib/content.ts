@@ -67,6 +67,16 @@ export type RelatedPatternLink = {
   linkText: string;
 };
 
+/** Optional infographic — shown in the pattern hero above Related ideas (after video, if any). */
+export type PatternInfographic = {
+  /** Path under `public/` */
+  src: string;
+  width: number;
+  height: number;
+  /** Accessible description; defaults from pattern title when omitted */
+  alt?: string;
+};
+
 /** Long-form body for `/patterns/[slug]` — mirrors Appendix B entries */
 export type PatternDetailBody = {
   group: PatternGroupId;
@@ -79,6 +89,15 @@ export type PatternDetailBody = {
   resultingContext: string;
   /** At least two entries recommended — connects detail pages in a navigable graph */
   relatedPatterns: readonly RelatedPatternLink[];
+  /** Optional Medium essay — shown under Related ideas when set */
+  mediumArticleHref?: string;
+  /**
+   * Optional embed — same shape as `introVideoPageContent.youtubeVideoId` (watch URL → ID only).
+   * Renders in the pattern hero above Related ideas (and above the infographic when both are set).
+   */
+  youtubeVideoId?: string;
+  /** Optional infographic — below video in the hero, above Related ideas */
+  infographic?: PatternInfographic;
 };
 
 /** SEO / social metadata — see `buildPatternMetadata` in `lib/metadata.ts` */
@@ -387,6 +406,13 @@ export const patterns: PatternCardItem[] = [
             "When the group keeps defaulting to the same person without a formal vote",
         },
       ],
+      youtubeVideoId: "3N-vY1i5rg8",
+      infographic: {
+        src: "/assets/attention-finds-a-focus.png",
+        width: 1200,
+        height: 669,
+        alt: "Infographic summarizing how attention converges on one person and influence follows.",
+      },
     },
   },
   {
@@ -430,6 +456,13 @@ export const patterns: PatternCardItem[] = [
             "Whether uncomfortable news can surface before it becomes expensive",
         },
       ],
+      youtubeVideoId: "wHE-WLn-Bh8",
+      infographic: {
+        src: "/assets/examples-accumulate.png",
+        width: 1200,
+        height: 669,
+        alt: "Infographic summarizing how repeated examples become what others treat as normal.",
+      },
     },
   },
   {
@@ -472,6 +505,13 @@ export const patterns: PatternCardItem[] = [
           linkText: "When disagreement stops reshaping what gets decided",
         },
       ],
+      youtubeVideoId: "vXG8kn-5QTo",
+      infographic: {
+        src: "/assets/leadership-coalesces.png",
+        width: 1200,
+        height: 669,
+        alt: "Infographic summarizing how the group keeps defaulting to the same person as decisions repeat.",
+      },
     },
   },
   {
@@ -516,6 +556,8 @@ export const patterns: PatternCardItem[] = [
             "When news from the ground stops updating decisions in time",
         },
       ],
+      mediumArticleHref:
+        "https://medium.com/@steffensen.kevin/dissent-is-welcomed-b444e4c16592",
     },
   },
   {
@@ -560,6 +602,8 @@ export const patterns: PatternCardItem[] = [
             "Staying tied to the human cost when direction has to change",
         },
       ],
+      mediumArticleHref:
+        "https://medium.com/@steffensen.kevin/feedback-drives-change-2c7251f46610",
     },
   },
   {
@@ -603,6 +647,8 @@ export const patterns: PatternCardItem[] = [
             "Closing the gap between decisions and what is happening on the ground",
         },
       ],
+      mediumArticleHref:
+        "https://medium.com/@steffensen.kevin/leaders-feel-the-consequences-dd6a8c73ddd5",
     },
   },
   {
@@ -647,6 +693,8 @@ export const patterns: PatternCardItem[] = [
             "When timely signals from practice stop reaching the people who decide",
         },
       ],
+      mediumArticleHref:
+        "https://medium.com/@steffensen.kevin/disagreement-is-suppressed-49514eb3bc43",
     },
   },
   {
@@ -691,6 +739,8 @@ export const patterns: PatternCardItem[] = [
             "Protecting early warnings before dissent goes underground",
         },
       ],
+      mediumArticleHref:
+        "https://medium.com/@steffensen.kevin/learning-collapses-41c7ebef3c93",
     },
   },
   {
@@ -735,6 +785,8 @@ export const patterns: PatternCardItem[] = [
             "Why leaders lose sight of what rolling exceptions cost day to day",
         },
       ],
+      mediumArticleHref:
+        "https://medium.com/@steffensen.kevin/exceptions-are-forever-1299b99da371",
     },
   },
   {
@@ -779,6 +831,7 @@ export const patterns: PatternCardItem[] = [
             "How informal defaults become the training floor for the next leaders",
         },
       ],
+      youtubeVideoId: "rFD_xfottcQ",
     },
   },
 ];
@@ -845,6 +898,12 @@ export type PatternsPageContent = {
   intro: string;
   /** Optional supporting paragraph */
   introLine2?: string;
+  /** Optional explainer playlist — shown under intro copy */
+  youtubePlaylist?: {
+    href: string;
+    /** Accessible link text (sentence-style) */
+    label: string;
+  };
 };
 
 export const patternsPageContent: PatternsPageContent = {
@@ -854,6 +913,10 @@ export const patternsPageContent: PatternsPageContent = {
     "These patterns run through the argument: how leadership forms, renews, erodes, and spreads. Four groups—forming, adjusting, eroding, and circulating—hold the entries. Each one notes when it shows up, what is happening, and what tends to follow.",
   introLine2:
     "These are not prescriptions. They are patterns to watch for in small groups, workplaces, and public life. Four groups organize the list below; open any card for context, forces, observation, and related patterns.",
+  youtubePlaylist: {
+    href: "https://www.youtube.com/playlist?list=PL0gz-cNuLgIZkd7HcM8tZory5sa-aN6V9",
+    label: "Watch the pattern playlist on YouTube",
+  },
 };
 
 export const patternSectionContent = {

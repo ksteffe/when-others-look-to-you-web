@@ -14,7 +14,7 @@ export type PatternsPageProps = {
  * `/patterns` — intro plus appendix-grouped grids of {@link PatternCard}.
  */
 export function PatternsPage({ content }: PatternsPageProps) {
-  const { label, title, intro, introLine2 } = content;
+  const { label, title, intro, introLine2, youtubePlaylist } = content;
   const grouped = getPatternsGrouped();
 
   return (
@@ -30,6 +30,18 @@ export function PatternsPage({ content }: PatternsPageProps) {
               <p className="body-lg text-pretty text-neutral-600">{intro}</p>
               {introLine2 ? (
                 <p className="body-lg text-pretty text-neutral-600">{introLine2}</p>
+              ) : null}
+              {youtubePlaylist ? (
+                <p className="body-lg text-pretty text-neutral-600">
+                  <a
+                    href={youtubePlaylist.href}
+                    className="font-medium text-brand-navy underline-offset-2 transition-colors hover:text-brand-gold hover:underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {youtubePlaylist.label}
+                  </a>
+                </p>
               ) : null}
             </header>
 
