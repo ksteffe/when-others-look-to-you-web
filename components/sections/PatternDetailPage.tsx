@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Fragment } from "react";
 import {
@@ -52,6 +53,15 @@ export function PatternDetailPage({ pattern }: PatternDetailPageProps) {
   const { number, title, description, detail } = pattern;
   const related = getRelatedPatterns(pattern);
   const groupMeta = patternGroups[detail.group];
+  const youtubeVideoId = detail.youtubeVideoId;
+  const mediumArticleHref = detail.mediumArticleHref;
+  const infographic = detail.infographic;
+  const showVideo = Boolean(youtubeVideoId);
+  const showRelatedIdeasNav =
+    related.length > 0 || Boolean(mediumArticleHref);
+  /** YouTube and/or infographic in the hero — each optional; infographic alone still shows. */
+  const showHeroMedia = showVideo || Boolean(infographic);
+  const showHeroAside = showRelatedIdeasNav || showHeroMedia;
 
   return (
     <>
@@ -73,34 +83,106 @@ export function PatternDetailPage({ pattern }: PatternDetailPageProps) {
               {description}
             </p>
 
-            {related.length > 0 ? (
-              <nav
-                aria-label="Related patterns"
-                className="mt-10 border-t border-white/15 pt-8"
-              >
-                <p className="body-lg leading-relaxed text-zinc-400">
-                  <span className="font-semibold text-zinc-300">
-                    Related ideas
-                  </span>
-                  {": "}
-                  {related.map(({ pattern: rp, linkText }, i) => (
-                    <Fragment key={rp.slug}>
-                      {i > 0 ? (
-                        <span aria-hidden className="text-zinc-600">
-                          {" "}
-                          ·{" "}
+            {showHeroAside ? (
+              <div className="mt-10 space-y-8">
+                {showHeroMedia ? (
+                  <div className="space-y-8 sm:space-y-10">
+                    {showVideo ? (
+                      <div className="space-y-4">
+                        <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-black/40 shadow-soft ring-1 ring-white/15">
+                          <iframe
+                            title={`${title} — related video`}
+                            className="absolute inset-0 h-full w-full"
+                            src={`https://www.youtube.com/embed/${youtubeVideoId}`}
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowFullScreen
+                            loading="lazy"
+                            referrerPolicy="strict-origin-when-cross-origin"
+                          />
+                        </div>
+                        <p className="body-sm text-zinc-500">
+                          Having trouble playing the video?{" "}
+                          <a
+                            href={`https://www.youtube.com/watch?v=${youtubeVideoId}`}
+                            className="font-medium text-brand-gold/90 underline-offset-2 transition-colors hover:text-brand-gold hover:underline"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Open it on YouTube
+                          </a>
+                          .
+                        </p>
+                      </div>
+                    ) : null}
+
+                    {infographic ? (
+                      <figure className="mx-auto max-w-full">
+                        <Image
+                          src={infographic.src}
+                          alt={
+                            infographic.alt ??
+                            `Infographic illustrating ${title}`
+                          }
+                          width={infographic.width}
+                          height={infographic.height}
+                          className="h-auto w-full rounded-xl ring-1 ring-white/10"
+                          sizes="(max-width: 672px) 100vw, 42rem"
+                        />
+                      </figure>
+                    ) : null}
+                  </div>
+                ) : null}
+
+                {showRelatedIdeasNav ? (
+                  <nav
+                    aria-label="Related ideas and further reading"
+                    className="border-t border-white/15 pt-8"
+                  >
+                    {related.length > 0 ? (
+                      <p className="body-lg leading-relaxed text-zinc-400">
+                        <span className="font-semibold text-zinc-300">
+                          Related ideas
                         </span>
-                      ) : null}
-                      <Link
-                        href={rp.href}
-                        className="font-medium text-brand-gold/95 underline-offset-[3px] transition-colors hover:text-brand-gold hover:underline"
+                        {": "}
+                        {related.map(({ pattern: rp, linkText }, i) => (
+                          <Fragment key={rp.slug}>
+                            {i > 0 ? (
+                              <span aria-hidden className="text-zinc-600">
+                                {" "}
+                                ·{" "}
+                              </span>
+                            ) : null}
+                            <Link
+                              href={rp.href}
+                              className="font-medium text-brand-gold/95 underline-offset-[3px] transition-colors hover:text-brand-gold hover:underline"
+                            >
+                              {linkText}
+                            </Link>
+                          </Fragment>
+                        ))}
+                      </p>
+                    ) : null}
+                    {mediumArticleHref ? (
+                      <p
+                        className={
+                          related.length > 0
+                            ? "mt-4 body-lg leading-relaxed text-zinc-400"
+                            : "body-lg leading-relaxed text-zinc-400"
+                        }
                       >
-                        {linkText}
-                      </Link>
-                    </Fragment>
-                  ))}
-                </p>
-              </nav>
+                        <a
+                          href={mediumArticleHref}
+                          className="font-medium text-brand-gold/95 underline-offset-[3px] transition-colors hover:text-brand-gold hover:underline"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Read on Medium
+                        </a>
+                      </p>
+                    ) : null}
+                  </nav>
+                ) : null}
+              </div>
             ) : null}
           </header>
         </Container>
