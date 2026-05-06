@@ -556,6 +556,12 @@ export const patterns: PatternCardItem[] = [
             "When news from the ground stops updating decisions in time",
         },
       ],
+      infographic: {
+        src: "/assets/dissent-is-welcomed.png",
+        width: 1200,
+        height: 669,
+        alt: "Infographic summarizing how dissent surfaces problems early so leaders can correct course in time.",
+      },
       mediumArticleHref:
         "https://medium.com/@steffensen.kevin/dissent-is-welcomed-b444e4c16592",
     },
