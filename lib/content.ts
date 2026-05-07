@@ -556,6 +556,7 @@ export const patterns: PatternCardItem[] = [
             "When news from the ground stops updating decisions in time",
         },
       ],
+      youtubeVideoId: "hCC_faAUMZA",
       infographic: {
         src: "/assets/dissent-is-welcomed.png",
         width: 1200,
