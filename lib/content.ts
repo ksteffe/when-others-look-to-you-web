@@ -609,6 +609,13 @@ export const patterns: PatternCardItem[] = [
             "Staying tied to the human cost when direction has to change",
         },
       ],
+      youtubeVideoId: "duyBPIOz94Y",
+      infographic: {
+        src: "/assets/feedback-drives-change.png",
+        width: 1200,
+        height: 669,
+        alt: "Infographic summarizing how feedback changes direction when new facts or risks appear.",
+      },
       mediumArticleHref:
         "https://medium.com/@steffensen.kevin/feedback-drives-change-2c7251f46610",
     },
