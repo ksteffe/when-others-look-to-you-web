@@ -661,6 +661,13 @@ export const patterns: PatternCardItem[] = [
             "Closing the gap between decisions and what is happening on the ground",
         },
       ],
+      youtubeVideoId: "QKSjw-ax2fA",
+      infographic: {
+        src: "/assets/leaders-feel-the-consequences.png",
+        width: 1200,
+        height: 669,
+        alt: "Infographic summarizing how leaders stay tied to the consequences their decisions create.",
+      },
       mediumArticleHref:
         "https://medium.com/@steffensen.kevin/leaders-feel-the-consequences-dd6a8c73ddd5",
     },
