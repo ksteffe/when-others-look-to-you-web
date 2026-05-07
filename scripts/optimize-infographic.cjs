@@ -15,6 +15,7 @@ const DEFAULT_NAMES = [
   "examples-accumulate.png",
   "leadership-coalesces.png",
   "dissent-is-welcomed.png",
+  "feedback-drives-change.png",
 ];
 
 async function optimizeOne(sharp, target) {
